@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\items;
-use App\Models\Order;
-use App\Models\OrderItem;
 
 class BasketController extends Controller{
        public function showBasket() {
