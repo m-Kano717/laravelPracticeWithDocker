@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\UserController;
 
 Route::get("/", [PostController::class, "index"]);
 
@@ -17,19 +18,19 @@ Route::Get("/showItems", [PostController::class, "showItems"]);
 
 Route::Get("/itemDetail/{id}", [PostController::class, "itemDetail"])->name("itemDetail");
 
-Route::Get("/registUser", [PostController::class, "registUser"]);
+Route::Get("/registUser", [UserController::class, "registUser"]);
 
-Route::Post("/registCheck", [PostController::class, "registCheck"]);
+Route::Post("/registCheck", [UserController::class, "registCheck"]);
 
 // Route::Get("/registCheck", [PostController::class, "registCheck"]);
 
-Route::match(["Post","Get"],"/regist", [PostController::class, "regist"]);
+Route::match(["Post","Get"],"/regist", [UserController::class, "regist"]);
 
-Route::match(["Post","Get"],"/checkInfo", [PostController::class, "checkInfo"]);
+Route::match(["Post","Get"],"/checkInfo", [UserController::class, "checkInfo"]);
 
-Route::Post("/registComplete", [PostController::class, "registComplete"]);
+Route::Post("/registComplete", [UserController::class, "registComplete"]);
 
-Route::Get("/compView", [PostController::class, "compView"]);
+Route::Get("/compView", [UserController::class, "compView"]);
 
 Route::Get("/showBasket", [BasketController::class, "showBasket"]);
 
@@ -39,15 +40,15 @@ Route::Get("/basketAllDelete", [BasketController::class, "basketAllDelete"]);
 
 Route::Post("/itemDelete", [BasketController::class, "itemDelete"]);
 
-Route::Get("/userInfo", [PostController::class, "userInfo"]);
+Route::Get("/userInfo", [UserController::class, "userInfo"]);
 
-Route::Get("/deleteUser", [PostController::class, "deleteUser"]);
+Route::Get("/deleteUser", [UserController::class, "deleteUser"]);
 
-Route::match(["Post","Get"], "/changeInfo", [PostController::class, "changeInfo"]);
+Route::match(["Post","Get"], "/changeInfo", [UserController::class, "changeInfo"]);
 
-Route::match(["Post","Get"], "/changeCheck", [PostController::class, "changeCheck"]);
+Route::match(["Post","Get"], "/changeCheck", [UserController::class, "changeCheck"]);
 
-Route::Post("/changeRegist", [PostController::class, "changeRegist"]);
+Route::Post("/changeRegist", [UserController::class, "changeRegist"]);
 
 Route::match(["Get", "Post"], "/orderRegist", [OrderController::class, "orderRegist"]);
 
