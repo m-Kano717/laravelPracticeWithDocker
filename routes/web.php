@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\BasketController;
 
 Route::get("/", [PostController::class, "index"]);
 
@@ -30,13 +31,13 @@ Route::Post("/registComplete", [PostController::class, "registComplete"]);
 
 Route::Get("/compView", [PostController::class, "compView"]);
 
-Route::Get("/showBasket", [PostController::class, "showBasket"]);
+Route::Get("/showBasket", [BasketController::class, "showBasket"]);
 
-Route::Post("/addBasket", [PostController::class, "addBasket"]);
+Route::Post("/addBasket", [BasketController::class, "addBasket"]);
 
-Route::Get("/basketAllDelete", [PostController::class, "basketAllDelete"]);
+Route::Get("/basketAllDelete", [BasketController::class, "basketAllDelete"]);
 
-Route::Post("/itemDelete", [PostController::class, "itemDelete"]);
+Route::Post("/itemDelete", [BasketController::class, "itemDelete"]);
 
 Route::Get("/userInfo", [PostController::class, "userInfo"]);
 
