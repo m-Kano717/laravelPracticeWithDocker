@@ -43,10 +43,14 @@ class OrderController extends Controller
         $orderInfo["derivery_address"] = $request->address1 . " " . $request->address2 . " " . $request->address3 . " " . $request->address4;
         $orderInfo["total"] = $request->total_price;
         $orderInfo["pay_method"] = $request->pay_method;
-
+        Order::create($orderInfo);
         $orderId = Order::latest("id")->first();
         for ($i = 0; $i < count(session("basketItems")); $i++) {
-            $item["order_id"] = $orderId->id;
+            if(isset($orderId->id)){
+                $item["order_id"] = $orderId->id;
+            }else{
+                $item["order_id"] = 1;
+            }
             $item["item_id"] = session("basketItems." . $i . ".id");
             $item["item_num"] = session("basketItems." . $i . ".order");
             $item["price"] = session("basketItems." . $i . ".price");
@@ -57,7 +61,7 @@ class OrderController extends Controller
             ]);
             OrderItem::create($item);
         }
-        Order::create($orderInfo);
+        
         session()->forget("basketItems");
         return redirect("/showOrderComplete");
     }
