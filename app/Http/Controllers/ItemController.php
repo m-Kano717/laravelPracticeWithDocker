@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\items;
+use App\Models\Item;
+use App\Services\ItemService;
 
-class ItemController extends Controller
-{
+class ItemController extends Controller {
+    protected ItemService $itemService;
 
-    public function showItems()
-    {
-        $itemList = items::with("categories")->get();
+    public function __construct(ItemService $itemService) {
+        $this->itemService = $itemService;
+    }
+
+    public function showItems() {
+        $itemList = $this->itemService->getItemList();
 
         return view("Item/itemList", ["itemList" => $itemList]);
     }
 
-    public function itemDetail(int $id)
-    {
-        $item = items::with("categories")->find($id);
+    public function itemDetail(int $id) {
+        $item = $this->itemService->getItemDetail($id);
         if (!$item) {
-            // return "お探しの商品は見つかりませんでした。<br><a href="url('/')"></a>";
-            return "お探しの商品は見つかりませんでした。<br><a href='" . url('/') . "'>トップへ戻る</a>";
+            return abort(404);
+            // return "お探しの商品は見つかりませんでした。<br><a href='" . url('/') . "'>トップへ戻る</a>";
         }
         return view("Item/itemDetail", ["items" => $item]);
     }

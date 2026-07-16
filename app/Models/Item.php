@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class items extends Model
+class Item extends Model
 {   
 
     public $timestamps = false;
 
     public function categories(){
-        return $this->belongsTo(categories::class, "categorie_id");
+        return $this->belongsTo(Category::class, "categorie_id");
     }
 }
