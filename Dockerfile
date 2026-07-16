@@ -7,9 +7,11 @@ run apt-get update && apt-get install -y \
     zip \
     unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql gd
+    && docker-php-ext-install pdo_mysql gd bcmath
 
 run a2enmod rewrite
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 env APACHE_DOCUMENT_ROOT /var/www/html/public
 run sed -ri 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
