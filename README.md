@@ -7,6 +7,19 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## About Project
+
+本プロジェクトは、PHPおよびLaravelの学習を目的として作成したプロジェクトです。大部分の機能完成後、DockerおよびGitとの連携を追加の課題として実施し、人の目に触れても耐えうる形への整備を施しています（ex:Fat Controllerの解決、不親切な動線の改善）。
+作成開始時期は2026年7月3日頃です。
+ECサイトとして作成しており、主要機能は
+・ログイン
+・商品一覧、詳細
+・買い物かご
+・注文登録
+・会員登録
+です。
+PHP8.2、Laravel12を使用しています。
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
