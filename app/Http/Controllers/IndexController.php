@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\items;
-use App\Mail\checkMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
-class PostController extends Controller
+class IndexController extends Controller
 {
     public function index() {
         if (session()->has("name")) {
@@ -66,18 +64,5 @@ class PostController extends Controller
 
 
 
-    public function showItems() {
-        $itemList = items::with("categories")->get();
 
-        return view("itemList", ["itemList" => $itemList]);
-    }
-
-    public function itemDetail(int $id) {
-        $item = items::with("categories")->find($id);
-        if (!$item) {
-            // return "お探しの商品は見つかりませんでした。<br><a href="url('/')"></a>";
-            return "お探しの商品は見つかりませんでした。<br><a href='" . url('/') . "'>トップへ戻る</a>";
-        }
-        return view("itemDetail", ["items" => $item]);
-    }
 }

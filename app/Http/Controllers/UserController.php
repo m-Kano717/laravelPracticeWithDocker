@@ -14,7 +14,7 @@ class UserController extends Controller{
         if (session()->has("mailFlag")) {
             return redirect("regist");
         }
-        return view("registForm");
+        return view("User/registForm");
     }
 
     public function registCheck(Request $request) {
@@ -31,7 +31,7 @@ class UserController extends Controller{
             session(["mail" => $mail]);
             $hid = 1;
             Mail::to($mail)->send(new checkMail($randNum));
-            return view("registForm", compact("hid"));
+            return view("User/registForm", compact("hid"));
         } elseif ($request->input("hid") === "1") {
             $randNum = session("randNum");
             if ($request->num == $randNum) {
@@ -51,7 +51,7 @@ class UserController extends Controller{
             return redirect("registUser");
         }
         // session(["mail" => "mail@testmail"]);
-        return view("regist");
+        return view("User/regist");
     }
 
     public function checkInfo(Request $request) {
@@ -75,7 +75,7 @@ class UserController extends Controller{
 
         $request->flash();
 
-        return view("checkInfo", compact("userInfo"));
+        return view("User/checkInfo", compact("userInfo"));
     }
 
     public function registComplete(Request $request) {
@@ -85,11 +85,11 @@ class UserController extends Controller{
 
         User::create($userInfo);
 
-        return redirect("compView");
+        return redirect("User/compView");
     }
 
     public function compView() {
-        return view("compView");
+        return view("User/compView");
     }
 
     public function deleteUser() {
@@ -119,7 +119,7 @@ class UserController extends Controller{
             $userInfo = User::where("nick_name", $name)->first();
         }
         ;
-        return view("changeInfo", compact("userInfo"));
+        return view("User/changeInfo", compact("userInfo"));
     }
 
     public function changeCheck(Request $request) {
@@ -143,7 +143,7 @@ class UserController extends Controller{
         $userInfo = $request->all();
         session()->forget("login");
 
-        return view("changeCheck", compact("userInfo"));
+        return view("User/changeCheck", compact("userInfo"));
     }
 
     public function changeRegist(Request $request) {
@@ -161,6 +161,6 @@ class UserController extends Controller{
         public function userInfo() {
         $name = session("name");
         $userInfo = User::where("nick_name", $name)->first();
-        return view("userInfo", ["userInfo" => $userInfo]);
+        return view("User/userInfo", ["userInfo" => $userInfo]);
     }
 }

@@ -1,22 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\UserController;
 
-Route::get("/", [PostController::class, "index"]);
+Route::get("/", [IndexController::class, "index"]);
 
-Route::post("/formPractice", [PostController::class, "logOn"]);
+Route::post("/formPractice", [IndexController::class, "logOn"]);
 
-Route::Get("/showTop", [PostController::class, "showTop"]);
+Route::Get("/showTop", [IndexController::class, "showTop"]);
 
-Route::Get("/logOut", [PostController::class, "logOut"]);
+Route::Get("/logOut", [IndexController::class, "logOut"]);
 
-Route::Get("/showItems", [PostController::class, "showItems"]);
+Route::Get("/showItems", [ItemController::class, "showItems"]);
 
-Route::Get("/itemDetail/{id}", [PostController::class, "itemDetail"])->name("itemDetail");
+Route::Get("/itemDetail/{id}", [ItemController::class, "itemDetail"])->name("itemDetail");
 
 Route::Get("/registUser", [UserController::class, "registUser"]);
 

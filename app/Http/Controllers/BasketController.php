@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\items;
 
-class BasketController extends Controller{
-       public function showBasket() {
+class BasketController extends Controller {
+    public function showBasket() {
         if (!session()->has("name")) {
             return redirect("/");
         }
         if (session()->has("basketItems")) {
             $items = session("basketItems", []);
-            return view("itemBasket", ["items" => $items]);
-        }
-        ;
+            return view("Basket/itemBasket", ["items" => $items]);
+        };
 
-        return view("itemBasket");
+        return view("Basket/itemBasket");
     }
 
     public function addBasket(Request $request) {
@@ -40,8 +39,7 @@ class BasketController extends Controller{
                     ->withInput();
             }
             $item->order = $order;
-        }
-        ;
+        };
         $item["total_price"] = $item->price * $item->order;
         $items = session("basketItems", []);
         $items[$item->item_name] = $item;

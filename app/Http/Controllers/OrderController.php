@@ -33,7 +33,7 @@ class OrderController extends Controller
         for ($i = 0; $i < count(session("basketItems")); $i++) {
             $userInfo->total_price += session("basketItems." . $i . ".total_price");
         }
-        return view("orderRegist", compact("steps"), compact("userInfo"));
+        return view("Order/orderRegist", compact("steps"), compact("userInfo"));
     }
 
     public function orderComplete(Request $request)
@@ -68,7 +68,7 @@ class OrderController extends Controller
 
     public function showOrderComplete()
     {
-        return view("orderComplete");
+        return view("Order/orderComplete");
     }
 
     public function orderList()
@@ -78,7 +78,7 @@ class OrderController extends Controller
         }
         $user = User::where("nick_name", session("name"))->first();
         $orders = Order::where("user_id", $user->id)->get();
-        return view("orderList", compact("orders"));
+        return view("Order/orderList", compact("orders"));
     }
 
     public function orderDetail(int $i)
@@ -91,7 +91,7 @@ class OrderController extends Controller
             $orderItem[$y]->item_id = items::where("id", $orderItem[$y]->item_id)->value("item_name");
         }
         $order->id = $i;
-        return view("orderDetail", compact("order"), compact("orderItem"));
+        return view("Order/orderDetail", compact("order"), compact("orderItem"));
     }
 
 }
