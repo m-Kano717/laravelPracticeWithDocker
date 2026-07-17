@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\items;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -51,7 +51,7 @@ class IndexController extends Controller
     }
 
     public function showTop() {
-        $randomItems = items::with("categories")->inRandomOrder()->limit(3)->get();
+        $randomItems = Item::with("categories")->inRandomOrder()->limit(3)->get();
 
         return view("top", ["randomItems" => $randomItems]);
     }

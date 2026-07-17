@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\items;
+use App\Models\Item;
 
 class BasketController extends Controller {
     public function showBasket() {
@@ -22,7 +22,7 @@ class BasketController extends Controller {
         if (!session()->has("name")) {
             return redirect("/");
         }
-        $item = items::where("id", $request->id)->first();
+        $item = Item::where("id", $request->id)->first();
         if (!isset(session("basketItems")[$item->item_name]?->order)) {
             if ($item->stock < 1) {
                 return redirect("/showBasket")
@@ -55,7 +55,7 @@ class BasketController extends Controller {
     }
 
     public function itemDelete(Request $request) {
-        $item = items::where("id", $request->id)->first();
+        $item = Item::where("id", $request->id)->first();
         $order = session("basketItems")[$item->item_name]->order;
         $order = $order - 1;
         $item["total_price"] = $item->price * $order;
