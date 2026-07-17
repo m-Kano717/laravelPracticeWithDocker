@@ -7,8 +7,16 @@ use App\Mail\checkMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Services\UserService;
+use App\Http\Requests\UserInfoRequest;
 
-class UserController extends Controller{
+class UserController extends Controller {
+
+    protected UserService $userService;
+
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
+    }
 
     public function registUser() {
         if (session()->has("mailFlag")) {
@@ -18,25 +26,15 @@ class UserController extends Controller{
     }
 
     public function registCheck(Request $request) {
-        // $regNum = 0;
-        // $randNum;
-        // if(session()->has("mailFlag")){
-        //     return redirect("regist");
-        // }
-        if ($request->input("hid") === "0") {
-            // $regNum = 1;
-            $randNum = sprintf("%04d", random_int(0, 9999));
-            session(["randNum" => $randNum]);
-            $mail = $request->input("mail");
-            session(["mail" => $mail]);
-            $hid = 1;
-            Mail::to($mail)->send(new checkMail($randNum));
+
+        $hid = $request->input("hid");
+
+        if ($hid == 0) {
+            $hid = $this->userService->sendMail($request->mail);
             return view("User/registForm", compact("hid"));
-        } elseif ($request->input("hid") === "1") {
-            $randNum = session("randNum");
-            if ($request->num == $randNum) {
-                session()->forget("randNum");
-                session(["mailFlag" => 1]);
+        }
+        if ($hid == 1) {
+            if ($this->userService->checkNum($request->num)) {
                 return redirect("/regist");
             } else {
                 return redirect("/registUser")
@@ -50,29 +48,12 @@ class UserController extends Controller{
         if (!session()->has("mailFlag")) {
             return redirect("registUser");
         }
-        // session(["mail" => "mail@testmail"]);
         return view("User/regist");
     }
 
-    public function checkInfo(Request $request) {
-        $request->validate([
-            "first_name" => "required|max:20",
-            "last_name" => "required|max:20",
-            "pass" => "required",
-            "nick_name" => "required|max:50",
-            "address1" => "required",
-            "address2" => ["required", "max:20", "regex:/^[ぁ-んァ-ヶー一-龠]{2,8}$/u", "regex:/[市区町村]$/u"],
-            "address3" => "required|max:100",
-            "address4" => "required|max:100",
-            "birth_date" => "required|date|before_or_equal:today",
-            "sex" => "required",
-            "tel" => ["required", "max:20", "regex:/^0\d{9,10}$/"],
-            "user_type" => "required"
-        ]);
-
-        $userInfo = $request->all();
-        $userInfo["mail"] = session("mail");
-
+    public function checkInfo(UserInfoRequest $request) {
+        $userInfo = $request->validated();
+        $userInfo = $this->userService->setUserInfo($userInfo);
         $request->flash();
 
         return view("User/checkInfo", compact("userInfo"));
@@ -80,12 +61,9 @@ class UserController extends Controller{
 
     public function registComplete(Request $request) {
         $userInfo = $request->all();
-        $userInfo["mail"] = session("mail");
-        $userInfo["pass"] = Hash::make($userInfo["pass"]);
+        $this->userService->createUser($userInfo);
 
-        User::create($userInfo);
-
-        return redirect("User/compView");
+        return redirect("/compView");
     }
 
     public function compView() {
@@ -93,74 +71,43 @@ class UserController extends Controller{
     }
 
     public function deleteUser() {
-        $name = session("name");
-        $user = User::where("nick_name", $name)->first();
-        $user->delete_flag = 1;
-
-        $user->save();
+        $this->userService->deleteUser();
 
         return redirect("/logOut");
-        // return $user;
     }
 
     public function changeInfo(Request $request) {
-        // dd(session()->all());
-        if (!session()->has("login")) {
-            session()->forget("name");
-            session(["login" => 1]);
+        if ($this->userService->loginCheck()) {
             return redirect("/");
-        }
-        ;
-
-        if (isset($request->return_flag)) {
-            $userInfo = $request;
-        } else {
-            $name = session("name");
-            $userInfo = User::where("nick_name", $name)->first();
-        }
-        ;
+        };
+        if(isset($request->return_flag)){
+            $return_flag = true;
+        }else{
+            $return_flag = false;
+        };
+        $requestInfo = $request->all();
+        $userInfo = $this->userService->getUserInfo($return_flag, $requestInfo);
+        
         return view("User/changeInfo", compact("userInfo"));
     }
 
-    public function changeCheck(Request $request) {
+    public function changeCheck(UserInfoRequest $request) {
         // dd(session()->all());
-        $request->validate([
-            "first_name" => "required|max:20",
-            "last_name" => "required|max:20",
-            "pass" => "required",
-            "nick_name" => "required|max:50",
-            "address1" => "required",
-            "address2" => ["required", "max:20", "regex:/^[ぁ-んァ-ヶー一-龠]{2,8}$/u", "regex:/[市区町村]$/u"],
-            "address3" => "required|max:100",
-            "address4" => "required|max:100",
-            "birth_date" => "required|date|before_or_equal:today",
-            "sex" => "required",
-            "tel" => ["required", "max:20", "regex:/^0\d{9,10}$/"],
-            "user_type" => "required"
-        ]);
 
+        $userInfo = $request->validated();
 
-        $userInfo = $request->all();
-        session()->forget("login");
 
         return view("User/changeCheck", compact("userInfo"));
     }
 
     public function changeRegist(Request $request) {
         $userInfo = $request->all();
-        $userInfo["pass"] = Hash::make($userInfo["pass"]);
-
-        $userName = session("name");
-        $user = User::where("nick_name", $userName)->first();
-
-        $user->update($userInfo);
-
+        $this->userService->updateUserInfo($userInfo);
         return redirect("/userInfo");
     }
 
-        public function userInfo() {
-        $name = session("name");
-        $userInfo = User::where("nick_name", $name)->first();
+    public function userInfo() {
+        $userInfo = $this->userService->showUserInfo();
         return view("User/userInfo", ["userInfo" => $userInfo]);
     }
 }
