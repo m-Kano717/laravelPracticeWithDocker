@@ -67,7 +67,7 @@ class OrderService {
         return $orders;
     }
 
-    public function setOrderItem(Array $orders, int $i){
+    public function setOrderItem($orders, int $i){
         $order = $orders[$i - 1];
         $orderItem = OrderItem::where("order_id", $order->id)->get();
         for ($y = 0; $y < count($orderItem); $y++) {
