@@ -35,7 +35,7 @@ class OrderService {
         return $userInfo;
     }
 
-    public function createOrder(User $userInfo, request $request) {
+    public function createOrder(User $userInfo, Request $request) {
         $orderInfo["user_id"] = $userInfo->id;
         $orderInfo["derivery_address"] = $request->address1 . " " . $request->address2 . " " . $request->address3 . " " . $request->address4;
         $orderInfo["total"] = $request->total_price;
