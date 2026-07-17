@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
 use App\Services\ItemService;
 
 class ItemController extends Controller {
