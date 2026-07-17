@@ -11,10 +11,7 @@
         <div class="form">
             <form action="/formPractice" method="POST">
                 @csrf
-                @error("mail")
-                <p style="color: red;">{{$message}}</p>
-                @enderror
-                @error("pass")
+                @error("mes")
                 <p style="color: red;">{{$message}}</p>
                 @enderror
                 メールアドレス：<input type="text" name="mail" value="{{ old('mail') }}">
