@@ -21,7 +21,7 @@ class OrderController extends Controller {
 
         $userInfo = $this->orderService->getUserInfo();
 
-        $userInfo = $this->orderService->setUserInfo($userInfo);
+        $userInfo = $this->orderService->setUserInfo($userInfo, $request);
 
         return view("Order/orderRegist", compact("steps"), compact("userInfo"));
     }

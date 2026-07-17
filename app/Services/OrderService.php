@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\items;
+use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderItem;
 
@@ -24,7 +24,7 @@ class OrderService {
         return $userInfo;
     }
 
-    public function setUserInfo(userInfo $userInfo) {
+    public function setUserInfo(User $userInfo, Request $request) {
         if (isset($request->pay_method)) {
             $userInfo->pay_method = $request->pay_method;
         };
@@ -35,7 +35,7 @@ class OrderService {
         return $userInfo;
     }
 
-    public function createOrder(userInfo $userInfo, request $request) {
+    public function createOrder(User $userInfo, request $request) {
         $orderInfo["user_id"] = $userInfo->id;
         $orderInfo["derivery_address"] = $request->address1 . " " . $request->address2 . " " . $request->address3 . " " . $request->address4;
         $orderInfo["total"] = $request->total_price;
@@ -62,7 +62,7 @@ class OrderService {
         session()->forget("basketItems");
     }
 
-    public function getOrders(userInfo $userInfo){
+    public function getOrders(User $userInfo){
         $orders = Order::where("user_id", $userInfo->id)->get();
         return $orders;
     }
