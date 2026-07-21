@@ -34,7 +34,7 @@ class UserService {
         return $userInfo;
     }
 
-    public function createUser($userInfo): void {
+    public function createUser(array $userInfo): void {
         $userInfo["mail"] = session("mail");
         $userInfo["pass"] = Hash::make($userInfo["pass"]);
 
