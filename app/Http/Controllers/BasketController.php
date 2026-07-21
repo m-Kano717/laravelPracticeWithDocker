@@ -4,8 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Services\BasketService;
 
 class BasketController extends Controller {
+
+    protected BasketService $basketService;
+
+    public function __construct(BasketService $basketService){
+        $this->basketService = $basketService;
+    }
+
     public function showBasket() {
         if (!session()->has("name")) {
             return redirect("/");
