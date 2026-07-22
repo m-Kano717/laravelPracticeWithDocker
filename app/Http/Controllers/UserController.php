@@ -103,6 +103,7 @@ class UserController extends Controller {
     public function changeRegist(Request $request) {
         $userInfo = $request->all();
         $this->userService->updateUserInfo($userInfo);
+        session(["name" => $request->nick_name]);
         return redirect("/userInfo");
     }
 
