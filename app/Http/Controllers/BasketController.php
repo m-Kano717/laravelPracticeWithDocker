@@ -10,7 +10,7 @@ class BasketController extends Controller {
 
     protected BasketService $basketService;
 
-    public function __construct(BasketService $basketService){
+    public function __construct(BasketService $basketService) {
         $this->basketService = $basketService;
     }
 
@@ -30,31 +30,27 @@ class BasketController extends Controller {
         if (!session()->has("name")) {
             return redirect("/");
         }
-        $item = Item::where("id", $request->id)->first();
-        if (!isset(session("basketItems")[$item->item_name]?->order)) {
-            if ($item->stock < 1) {
-                return redirect("/showBasket")
-                    ->withErrors(["order" => "在庫超過"])
-                    ->withInput();
-            }
-            $item->order = 1;
-        } else {
+        $id = $request->id;
+        $item = $this->basketService->getItem($id);
+
+        if (isset(session("basketItems")[$item->item_name]?->order)) {
             $order = session("basketItems")[$item->item_name]->order;
-            $order = $order + 1;
-            if ($item->stock < $order) {
-                return redirect("/showBasket")
+            $order = $this->basketService->addOrder($item->stock, $order);
+        }else{
+            $order = $this->basketService->createOrder($item->stock);
+        };
+
+        if($order < 1){
+            return redirect("/showBasket")
                     ->withErrors(["order" => "在庫超過"])
                     ->withInput();
-            }
-            $item->order = $order;
         };
-        $item["total_price"] = $item->price * $item->order;
-        $items = session("basketItems", []);
-        $items[$item->item_name] = $item;
+
+        $items = session("basketItems", []);    
+        $items = $this->basketService->addbasket($items, $item, $order);
         session(["basketItems" => $items]);
 
         return redirect("/showBasket");
-        // return session("basketItems")[$item->item_name];
     }
 
     public function basketAllDelete() {
@@ -63,18 +59,19 @@ class BasketController extends Controller {
     }
 
     public function itemDelete(Request $request) {
-        $item = Item::where("id", $request->id)->first();
+        $id = $request->id;
+        $item = $this->basketService->getItem($id);
+        $items = session("basketItems", []);
         $order = session("basketItems")[$item->item_name]->order;
-        $order = $order - 1;
-        $item["total_price"] = $item->price * $order;
-        if ($order <= 0) {
+
+        $items = $this->basketService->deleteItem($items, $item, $order);
+
+        if ($items[$item->item_name]->order == 0) {
             session()->forget("basketItems." . $item->item_name);
             if (count(session('basketItems', [])) == 0) {
                 session()->forget("basketItems");
             }
         } else {
-            $item->order = $order;
-            $items = session("basketItems", []);
             $items[$item->item_name] = $item;
             session(["basketItems" => $items]);
         }
