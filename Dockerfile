@@ -4,10 +4,11 @@ run apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libpq-dev \
     zip \
     unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql gd bcmath
+    && docker-php-ext-install pdo_pgsql pgsql gd bcmath
 
 run a2enmod rewrite
 
