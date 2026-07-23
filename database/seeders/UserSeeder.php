@@ -14,7 +14,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        User::updateOrCreate([
+            "mail" => "mail@testmail",
+        ],
+            
+        [
             "first_name" => "佐藤",
             "last_name" => "武",
             "pass" => Hash::make('1111'),
@@ -25,7 +29,7 @@ class UserSeeder extends Seeder
             "address4" => "123",
             "birth_date" => "2000-01-01",
             "tel" => "01122223334",
-            "mail" => "mail@testmail",
+            
             "sex" => "1",
             "user_type" => "B",
             "delete_flag" => "0"
