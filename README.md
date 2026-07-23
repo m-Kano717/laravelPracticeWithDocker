@@ -1,3 +1,5 @@
+![CI](https://github.com/https://github.com/m-Kano717/laravelPracticeWithDocker/actions/workflows/laravel.yml/badge.svg)  
+
 ## URL
 
 https://laravelpracticewithdocker.onrender.com/showTop  
