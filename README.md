@@ -9,7 +9,7 @@ https://laravelpracticewithdocker.onrender.com/showTop
 ## About Project
 
 本プロジェクトは、PHPおよびLaravelの学習を目的として作成したプロジェクトです。大部分の機能完成後、DockerおよびGitとの連携を追加の課題として実施し、保守性・可読性を意識した形への整備を施しています（ex:Fat Controllerの解決・Service化、クラスレスCSSの導入）。  
-また、入社直後の研修でSpringを学習しており、その設計思想を参考に開発しました。  現在、Serviceの追加実装、Controllerとの分掌を完了しました。  
+現在、Serviceの追加実装、Controllerとの分掌を完了しました。  
 Renderへのデプロイに伴い、DBをMySQLからPostgreSQLに変更しました。
 
 作成開始時期は2026年7月3日頃です。  
