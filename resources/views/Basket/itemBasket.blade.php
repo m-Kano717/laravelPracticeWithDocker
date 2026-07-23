@@ -75,7 +75,7 @@
         <!-- <p>{{$item->id}}</p>
     <p>{{$item->item_name}}</p> -->
         @endforeach
-    </table>
+    </table><br/>
     <button onclick="location.href='{{url('/basketAllDelete')}}'">買い物かごを空にする</button>
     <form action="orderRegist" method="Post">
         @csrf
