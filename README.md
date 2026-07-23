@@ -47,7 +47,7 @@ ECサイトとして作成しており、主要機能は
 - Render
 - Docker
 - Git
-- Mailtrap
+- Mailtrap  
 ＊デプロイに伴いMySQL→PostgreSQLに変更しました。  
 フロントではHTML5、CSS3、クラスレスCSSのMVPを使用しています。
 
