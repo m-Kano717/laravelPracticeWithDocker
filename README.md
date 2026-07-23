@@ -12,7 +12,7 @@ Renderへのデプロイに伴い、DBをMySQLからPostgreSQLに変更しまし
 
 作成開始時期は2026年7月3日頃です。  
 
-##　Contents
+##  Contents
 
 ECサイトとして作成しており、主要機能は
 - ログイン
