@@ -1,5 +1,5 @@
     <header>
-        <h1>PHP練習ショップ</h1>
+        <h1><a href="{{url('/showTop')}}>PHP練習ショップ</a></h1>
         @if(session("name"))
             <p><a href='{{url("/userInfo")}}'>{{ session("name") }}</a>さん</p>
             <p>☆あなたの会員タイプは、{{session("type")}}です☆</p>
