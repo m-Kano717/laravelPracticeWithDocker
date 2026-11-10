@@ -4,7 +4,7 @@
 
 <body>
     <header>
-        <h1>PHP練習ショップ</h1>
+        <h1><a href="{{url('/')}}>PHP練習ショップ</a></h1>
     </header>
     <contents>
         <p>ログイン</p>
